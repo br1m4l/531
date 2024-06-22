@@ -1,6 +1,8 @@
-document.getElementById('calculatorForm').addEventListener('submit', function(e) {
-    e.preventDefault();
-    calculate();
+document.addEventListener('DOMContentLoaded', function() {
+    document.getElementById('calculatorForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        calculate();
+    });
 });
 
 function calculate() {
