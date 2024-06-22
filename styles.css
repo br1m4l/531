@@ -1,26 +1,64 @@
-body {
-    font-family: Arial, sans-serif;
+body.military-theme {
+    font-family: 'Courier New', monospace;
     max-width: 600px;
     margin: 0 auto;
     padding: 20px;
+    background-color: #2a3439;
+    color: #c1d1d9;
+}
+
+h1 {
+    text-align: center;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: #8b9d83;
+}
+
+.military-text {
+    color: #d4af37;
 }
 
 input, button {
     margin: 10px 0;
-    padding: 5px;
+    padding: 10px;
+    width: 100%;
+    background-color: #3a4a53;
+    border: 2px solid #8b9d83;
+    color: #c1d1d9;
+    font-family: 'Courier New', monospace;
+}
+
+button {
+    background-color: #4a5d66;
+    color: #d4af37;
+    text-transform: uppercase;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+button:hover {
+    background-color: #5a6d76;
 }
 
 table {
     width: 100%;
     border-collapse: collapse;
+    margin-top: 20px;
 }
 
 th, td {
-    border: 1px solid #ddd;
-    padding: 8px;
+    border: 1px solid #8b9d83;
+    padding: 10px;
     text-align: left;
 }
 
 th {
-    background-color: #f2f2f2;
+    background-color: #3a4a53;
+    color: #d4af37;
+    text-transform: uppercase;
+}
+
+tr:nth-child(even) {
+    background-color: #3a4a53;
 }
