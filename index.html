@@ -3,231 +3,113 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Calculateur 5/3/1 Avancé</title>
+    <title>Calculateur 5/3/1 de Jim Wendler</title>
     <style>
         body {
-            font-family: 'Roboto', Arial, sans-serif;
+            font-family: Arial, sans-serif;
             line-height: 1.6;
-            color: #333;
-            max-width: 800px;
-            margin: 0 auto;
+            margin: 0;
             padding: 20px;
-            background-color: #f7f7f7;
+            background-color: #f4f4f4;
+        }
+        .container {
+            max-width: 600px;
+            margin: auto;
+            background: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
         }
         h1 {
-            color: #2c3e50;
             text-align: center;
-            margin-bottom: 30px;
-        }
-        .input-group {
-            margin-bottom: 20px;
+            color: #333;
         }
         label {
             display: block;
             margin-bottom: 5px;
-            color: #34495e;
-            font-weight: bold;
         }
-        input[type="number"], select {
+        input[type="number"] {
             width: 100%;
-            padding: 10px;
+            padding: 8px;
+            margin-bottom: 10px;
             border: 1px solid #ddd;
             border-radius: 4px;
-            box-sizing: border-box;
-            font-size: 16px;
         }
         button {
-            background-color: #3498db;
-            color: white;
-            padding: 12px 24px;
+            display: block;
+            width: 100%;
+            padding: 10px;
+            background: #333;
+            color: #fff;
             border: none;
             border-radius: 4px;
             cursor: pointer;
-            font-size: 16px;
-            transition: background-color 0.3s;
-            display: block;
-            width: 100%;
-            margin-top: 20px;
         }
         button:hover {
-            background-color: #2980b9;
+            background: #555;
         }
-        #results {
-            background-color: white;
-            padding: 20px;
-            border-radius: 4px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-            margin-top: 30px;
-        }
-        table {
-            width: 100%;
-            border-collapse: collapse;
+        #result {
             margin-top: 20px;
-        }
-        th, td {
-            padding: 12px;
-            border: 1px solid #ddd;
-            text-align: left;
-        }
-        th {
-            background-color: #f2f2f2;
-            font-weight: bold;
-        }
-        tr:nth-child(even) {
-            background-color: #f9f9f9;
+            background: #f9f9f9;
+            padding: 15px;
+            border-radius: 4px;
         }
     </style>
 </head>
 <body>
-    <h1>Calculateur 5/3/1 Avancé</h1>
-    <div class="input-group">
-        <label for="trainingMax">Training Max (kg):</label>
-        <input type="number" id="trainingMax" required>
+    <div class="container">
+        <h1>Calculateur 5/3/1 de Jim Wendler</h1>
+        <form id="calculator">
+            <label for="squat">Squat 1RM (kg):</label>
+            <input type="number" id="squat" required>
+            
+            <label for="bench">Développé couché 1RM (kg):</label>
+            <input type="number" id="bench" required>
+            
+            <label for="deadlift">Soulevé de terre 1RM (kg):</label>
+            <input type="number" id="deadlift" required>
+            
+            <label for="press">Développé militaire 1RM (kg):</label>
+            <input type="number" id="press" required>
+            
+            <button type="submit">Calculer</button>
+        </form>
+        
+        <div id="result"></div>
     </div>
-    <div class="input-group">
-        <label for="scheme">Schéma:</label>
-        <select id="scheme">
-            <option value="531">5/3/1 Standard</option>
-            <option value="5x531">5x5/3/1</option>
-            <option value="SpinalTap">Spinal Tap</option>
-            <option value="GodIsABeast">God Is a Beast</option>
-            <option value="Leviathan">Leviathan</option>
-            <option value="Rhodes5x531">Rhodes 5x5/3/1</option>
-            <option value="Beyond">Beyond 5/3/1</option>
-        </select>
-    </div>
-    <button onclick="calculate()">Calculer</button>
-    <div id="results"></div>
 
     <script>
-        class Calculator531 {
-            constructor() {
-                this.trainingMax = 0;
-                this.scheme = '531';
+        document.getElementById('calculator').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const squat = Number(document.getElementById('squat').value);
+            const bench = Number(document.getElementById('bench').value);
+            const deadlift = Number(document.getElementById('deadlift').value);
+            const press = Number(document.getElementById('press').value);
+            
+            const exercises = {
+                'Squat': squat,
+                'Développé couché': bench,
+                'Soulevé de terre': deadlift,
+                'Développé militaire': press
+            };
+            
+            let result = '<h2>Résultats</h2>';
+            
+            for (let [exercise, max] in Object.entries(exercises)) {
+                const trainingMax = max * 0.9;
+                result += `<h3>${exercise}</h3>`;
+                result += `<p>Training max: ${trainingMax.toFixed(1)} kg</p>`;
+                result += '<ul>';
+                result += `<li>Semaine 1: ${(trainingMax * 0.65).toFixed(1)}kg x 5, ${(trainingMax * 0.75).toFixed(1)}kg x 5, ${(trainingMax * 0.85).toFixed(1)}kg x 5+</li>`;
+                result += `<li>Semaine 2: ${(trainingMax * 0.70).toFixed(1)}kg x 3, ${(trainingMax * 0.80).toFixed(1)}kg x 3, ${(trainingMax * 0.90).toFixed(1)}kg x 3+</li>`;
+                result += `<li>Semaine 3: ${(trainingMax * 0.75).toFixed(1)}kg x 5, ${(trainingMax * 0.85).toFixed(1)}kg x 3, ${(trainingMax * 0.95).toFixed(1)}kg x 1+</li>`;
+                result += `<li>Semaine 4 (deload): ${(trainingMax * 0.40).toFixed(1)}kg x 5, ${(trainingMax * 0.50).toFixed(1)}kg x 5, ${(trainingMax * 0.60).toFixed(1)}kg x 5</li>`;
+                result += '</ul>';
             }
-
-            setTrainingMax(tm) {
-                this.trainingMax = tm;
-            }
-
-            setScheme(scheme) {
-                this.scheme = scheme;
-            }
-
-            calculateWeek(weekNumber) {
-                const schemes = {
-                    '531': {
-                        percentages: [
-                            [0.65, 0.75, 0.85],
-                            [0.70, 0.80, 0.90],
-                            [0.75, 0.85, 0.95]
-                        ],
-                        reps: ["5", "5", "5+"]
-                    },
-                    '5x531': {
-                        percentages: [
-                            [0.65, 0.75, 0.85, 0.65, 0.65],
-                            [0.70, 0.80, 0.90, 0.70, 0.70],
-                            [0.75, 0.85, 0.95, 0.75, 0.75]
-                        ],
-                        reps: ["5", "5", "5", "5", "5"]
-                    },
-                    'SpinalTap': {
-                        percentages: [
-                            [0.70, 0.80, 0.90],
-                            [0.75, 0.85, 0.95],
-                            [0.80, 0.90, 1.00]
-                        ],
-                        reps: ["5", "5", "5"]
-                    },
-                    'GodIsABeast': {
-                        percentages: [
-                            [0.75, 0.85, 0.95],
-                            [0.80, 0.90, 1.00],
-                            [0.85, 0.95, 1.05]
-                        ],
-                        reps: ["5", "5", "5"]
-                    },
-                    'Leviathan': {
-                        percentages: [
-                            [0.85, 0.95, 1.05],
-                            [0.90, 1.00, 1.10],
-                            [0.95, 1.05, 1.15]
-                        ],
-                        reps: ["3", "3", "3"]
-                    },
-                    'Rhodes5x531': {
-                        percentages: [
-                            [0.65, 0.75, 0.85, 0.65, 0.65],
-                            [0.70, 0.80, 0.90, 0.70, 0.70],
-                            [0.75, 0.85, 0.95, 0.75, 0.75]
-                        ],
-                        reps: ["5", "5", "5", "5", "5"]
-                    },
-                    'Beyond': {
-                        percentages: [
-                            [0.70, 0.80, 0.90, 0.65],
-                            [0.75, 0.85, 0.95, 0.70],
-                            [0.80, 0.90, 1.00, 0.75]
-                        ],
-                        reps: ["5", "5", "5+", "5"]
-                    }
-                };
-
-                const schemeData = schemes[this.scheme];
-                const weekPercentages = schemeData.percentages[weekNumber - 1];
-                const weekReps = schemeData.reps;
-
-                return weekPercentages.map((percentage, index) => {
-                    const weight = Math.round(this.trainingMax * percentage / 2.5) * 2.5;
-                    let reps = weekReps[index];
-                    if (this.scheme === '531' && weekNumber === 3) {
-                        reps = ["5", "3", "1+"][index];
-                    }
-                    return { weight, reps };
-                });
-            }
-
-            calculateCycle() {
-                return {
-                    week1: this.calculateWeek(1),
-                    week2: this.calculateWeek(2),
-                    week3: this.calculateWeek(3)
-                };
-            }
-        }
-
-        function calculate() {
-            const trainingMax = parseFloat(document.getElementById('trainingMax').value);
-            const scheme = document.getElementById('scheme').value;
-
-            const calculator = new Calculator531();
-            calculator.setTrainingMax(trainingMax);
-            calculator.setScheme(scheme);
-
-            const cycle = calculator.calculateCycle();
-
-            let results = '<h2>Résultats</h2>';
-            results += '<table><tr><th>Semaine</th><th>Set 1</th><th>Set 2</th><th>Set 3</th>';
-            if (['5x531', 'Rhodes5x531', 'Beyond'].includes(scheme)) {
-                results += '<th>Set 4</th>';
-            }
-            if (['5x531', 'Rhodes5x531'].includes(scheme)) {
-                results += '<th>Set 5</th>';
-            }
-            results += '</tr>';
-
-            for (let week = 1; week <= 3; week++) {
-                results += `<tr><td>Semaine ${week}</td>`;
-                cycle[`week${week}`].forEach(set => {
-                    results += `<td>${set.weight} kg x ${set.reps}</td>`;
-                });
-                results += '</tr>';
-            }
-
-            results += '</table>';
-            document.getElementById('results').innerHTML = results;
-        }
+            
+            document.getElementById('result').innerHTML = result;
+        });
     </script>
 </body>
 </html>
