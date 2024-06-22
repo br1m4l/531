@@ -82,21 +82,16 @@
         document.getElementById('calculator').addEventListener('submit', function(e) {
             e.preventDefault();
             
-            const squat = Number(document.getElementById('squat').value);
-            const bench = Number(document.getElementById('bench').value);
-            const deadlift = Number(document.getElementById('deadlift').value);
-            const press = Number(document.getElementById('press').value);
-            
             const exercises = {
-                'Squat': squat,
-                'Développé couché': bench,
-                'Soulevé de terre': deadlift,
-                'Développé militaire': press
+                'Squat': Number(document.getElementById('squat').value),
+                'Développé couché': Number(document.getElementById('bench').value),
+                'Soulevé de terre': Number(document.getElementById('deadlift').value),
+                'Développé militaire': Number(document.getElementById('press').value)
             };
             
             let result = '<h2>Résultats</h2>';
             
-            for (let [exercise, max] in Object.entries(exercises)) {
+            for (let [exercise, max] of Object.entries(exercises)) {
                 const trainingMax = max * 0.9;
                 result += `<h3>${exercise}</h3>`;
                 result += `<p>Training max: ${trainingMax.toFixed(1)} kg</p>`;
