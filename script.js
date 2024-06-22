@@ -1,5 +1,10 @@
+document.getElementById('calculatorForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    calculate();
+});
+
 function calculate() {
-    const oneRepMax = document.getElementById('oneRepMax').value;
+    const oneRepMax = parseFloat(document.getElementById('oneRepMax').value);
     const trainingMax = oneRepMax * 0.9;
 
     const percentages = [
@@ -8,12 +13,18 @@ function calculate() {
         [0.75, 0.85, 0.95]
     ];
 
+    let resultsHTML = '';
+
     for (let week = 1; week <= 3; week++) {
-        for (let set = 1; set <= 3; set++) {
-            const weight = Math.round(trainingMax * percentages[week-1][set-1] / 2.5) * 2.5;
-            document.getElementById(`w${week}s${set}`).textContent = `${weight} kg`;
+        resultsHTML += '<tr>';
+        resultsHTML += `<td>Semaine ${week}</td>`;
+        for (let set = 0; set < 3; set++) {
+            const weight = Math.round(trainingMax * percentages[week-1][set] / 2.5) * 2.5;
+            resultsHTML += `<td>${weight} kg</td>`;
         }
+        resultsHTML += '</tr>';
     }
 
-    document.getElementById('results').style.display = 'table';
+    document.getElementById('resultsBody').innerHTML = resultsHTML;
+    document.getElementById('results').style.display = 'block';
 }

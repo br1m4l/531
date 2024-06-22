@@ -1,44 +1,58 @@
 body.military-theme {
     font-family: 'Courier New', monospace;
-    max-width: 600px;
-    margin: 0 auto;
+    background-color: #1a2a1a;
+    color: #a0d0a0;
+    margin: 0;
     padding: 20px;
-    background-color: #2a3439;
-    color: #c1d1d9;
 }
 
-h1 {
+.container {
+    max-width: 600px;
+    margin: 0 auto;
+    background-color: #2a3a2a;
+    padding: 20px;
+    border: 2px solid #5a6a5a;
+    border-radius: 5px;
+}
+
+h1, h2 {
     text-align: center;
     text-transform: uppercase;
-    letter-spacing: 2px;
-    color: #8b9d83;
+    color: #d0e0d0;
 }
 
 .military-text {
-    color: #d4af37;
+    color: #ffd700;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+}
+
+label {
+    margin-bottom: 5px;
 }
 
 input, button {
-    margin: 10px 0;
+    margin-bottom: 15px;
     padding: 10px;
-    width: 100%;
-    background-color: #3a4a53;
-    border: 2px solid #8b9d83;
-    color: #c1d1d9;
+    background-color: #3a4a3a;
+    border: 1px solid #5a6a5a;
+    color: #a0d0a0;
     font-family: 'Courier New', monospace;
 }
 
 button {
-    background-color: #4a5d66;
-    color: #d4af37;
+    background-color: #4a5a4a;
+    color: #ffd700;
+    cursor: pointer;
     text-transform: uppercase;
     font-weight: bold;
-    cursor: pointer;
-    transition: background-color 0.3s;
 }
 
 button:hover {
-    background-color: #5a6d76;
+    background-color: #5a6a5a;
 }
 
 table {
@@ -48,17 +62,12 @@ table {
 }
 
 th, td {
-    border: 1px solid #8b9d83;
+    border: 1px solid #5a6a5a;
     padding: 10px;
-    text-align: left;
+    text-align: center;
 }
 
 th {
-    background-color: #3a4a53;
-    color: #d4af37;
-    text-transform: uppercase;
-}
-
-tr:nth-child(even) {
-    background-color: #3a4a53;
+    background-color: #3a4a3a;
+    color: #ffd700;
 }
