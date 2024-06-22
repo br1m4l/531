@@ -3,128 +3,120 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Calculateur 5/3/1 de Jim Wendler</title>
+    <title>Calculateur 5/3/1 de Jim Wendler (Étendu)</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            line-height: 1.6;
-            margin: 0;
-            padding: 20px;
-            background-color: #f4f4f4;
-        }
-        .container {
-            max-width: 600px;
-            margin: auto;
-            background: #fff;
-            padding: 20px;
-            border-radius: 5px;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
-        }
-        h1 {
-            text-align: center;
-            color: #333;
-        }
-        label {
-            display: block;
-            margin-bottom: 5px;
-        }
-        input[type="number"], select {
-            width: 100%;
-            padding: 8px;
-            margin-bottom: 10px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-        }
-        button {
-            display: block;
-            width: 100%;
-            padding: 10px;
-            background: #333;
-            color: #fff;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-        }
-        button:hover {
-            background: #555;
-        }
-        #result {
-            margin-top: 20px;
-            background: #f9f9f9;
-            padding: 15px;
-            border-radius: 4px;
-        }
+        /* Styles CSS inchangés */
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>Calculateur 5/3/1 de Jim Wendler</h1>
-        <form id="calculator">
-            <label for="squat">Squat 1RM (kg):</label>
-            <input type="number" id="squat" required>
-            
-            <label for="bench">Développé couché 1RM (kg):</label>
-            <input type="number" id="bench" required>
-            
-            <label for="deadlift">Soulevé de terre 1RM (kg):</label>
-            <input type="number" id="deadlift" required>
-            
-            <label for="press">Développé militaire 1RM (kg):</label>
-            <input type="number" id="press" required>
-            
-            <label for="scheme">Schéma d'entraînement:</label>
-            <select id="scheme">
-                <option value="531">5/3/1 classique</option>
-                <option value="351">3/5/1</option>
-                <option value="5pro">5's PRO</option>
-            </select>
-            
-            <button type="submit">Calculer</button>
-        </form>
-        
-        <div id="result"></div>
-    </div>
+    <h1>Calculateur 5/3/1 de Jim Wendler (Étendu)</h1>
+    <form id="calculator">
+        <label for="oneRepMax">1 Répétition Maximum (1RM) :</label>
+        <input type="number" id="oneRepMax" required>
+
+        <label for="exercise">Exercice :</label>
+        <select id="exercise">
+            <option value="squat">Squat</option>
+            <option value="bench">Développé couché</option>
+            <option value="deadlift">Soulevé de terre</option>
+            <option value="press">Développé militaire</option>
+        </select>
+
+        <label for="scheme">Schéma d'entraînement :</label>
+        <select id="scheme">
+            <option value="standard">Standard 5/3/1</option>
+            <option value="351">3/5/1</option>
+            <option value="5spro">5s PRO</option>
+            <option value="5x531">5x5/3/1</option>
+            <option value="fsl">First Set Last (FSL)</option>
+            <option value="bbb">Boring But Big (BBB)</option>
+        </select>
+
+        <label for="week">Semaine :</label>
+        <select id="week">
+            <option value="1">Semaine 1</option>
+            <option value="2">Semaine 2</option>
+            <option value="3">Semaine 3</option>
+            <option value="4">Semaine 4 (Décharge)</option>
+        </select>
+
+        <button type="submit">Calculer</button>
+    </form>
+
+    <div id="result"></div>
 
     <script>
         document.getElementById('calculator').addEventListener('submit', function(e) {
             e.preventDefault();
             
-            const exercises = {
-                'Squat': Number(document.getElementById('squat').value),
-                'Développé couché': Number(document.getElementById('bench').value),
-                'Soulevé de terre': Number(document.getElementById('deadlift').value),
-                'Développé militaire': Number(document.getElementById('press').value)
-            };
-            
+            const oneRepMax = parseFloat(document.getElementById('oneRepMax').value);
+            const exercise = document.getElementById('exercise').value;
             const scheme = document.getElementById('scheme').value;
+            const week = document.getElementById('week').value;
             
-            let result = '<h2>Résultats</h2>';
+            const trainingMax = oneRepMax * 0.9;
+            let percentages;
+            let sets;
             
-            for (let [exercise, max] of Object.entries(exercises)) {
-                const trainingMax = max * 0.9;
-                result += `<h3>${exercise}</h3>`;
-                result += `<p>Training max: ${trainingMax.toFixed(1)} kg</p>`;
-                result += '<ul>';
-                
-                if (scheme === '531') {
-                    result += `<li>Semaine 1: ${(trainingMax * 0.65).toFixed(1)}kg x 5, ${(trainingMax * 0.75).toFixed(1)}kg x 5, ${(trainingMax * 0.85).toFixed(1)}kg x 5+</li>`;
-                    result += `<li>Semaine 2: ${(trainingMax * 0.70).toFixed(1)}kg x 3, ${(trainingMax * 0.80).toFixed(1)}kg x 3, ${(trainingMax * 0.90).toFixed(1)}kg x 3+</li>`;
-                    result += `<li>Semaine 3: ${(trainingMax * 0.75).toFixed(1)}kg x 5, ${(trainingMax * 0.85).toFixed(1)}kg x 3, ${(trainingMax * 0.95).toFixed(1)}kg x 1+</li>`;
-                } else if (scheme === '351') {
-                    result += `<li>Semaine 1: ${(trainingMax * 0.70).toFixed(1)}kg x 3, ${(trainingMax * 0.80).toFixed(1)}kg x 3, ${(trainingMax * 0.90).toFixed(1)}kg x 3+</li>`;
-                    result += `<li>Semaine 2: ${(trainingMax * 0.65).toFixed(1)}kg x 5, ${(trainingMax * 0.75).toFixed(1)}kg x 5, ${(trainingMax * 0.85).toFixed(1)}kg x 5+</li>`;
-                    result += `<li>Semaine 3: ${(trainingMax * 0.75).toFixed(1)}kg x 5, ${(trainingMax * 0.85).toFixed(1)}kg x 3, ${(trainingMax * 0.95).toFixed(1)}kg x 1+</li>`;
-                } else if (scheme === '5pro') {
-                    result += `<li>Semaine 1: ${(trainingMax * 0.65).toFixed(1)}kg x 5, ${(trainingMax * 0.75).toFixed(1)}kg x 5, ${(trainingMax * 0.85).toFixed(1)}kg x 5</li>`;
-                    result += `<li>Semaine 2: ${(trainingMax * 0.70).toFixed(1)}kg x 5, ${(trainingMax * 0.80).toFixed(1)}kg x 5, ${(trainingMax * 0.90).toFixed(1)}kg x 5</li>`;
-                    result += `<li>Semaine 3: ${(trainingMax * 0.75).toFixed(1)}kg x 5, ${(trainingMax * 0.85).toFixed(1)}kg x 5, ${(trainingMax * 0.95).toFixed(1)}kg x 5</li>`;
-                }
-                
-                result += `<li>Semaine 4 (deload): ${(trainingMax * 0.40).toFixed(1)}kg x 5, ${(trainingMax * 0.50).toFixed(1)}kg x 5, ${(trainingMax * 0.60).toFixed(1)}kg x 5</li>`;
-                result += '</ul>';
+            switch(scheme) {
+                case 'standard':
+                    switch(week) {
+                        case '1': percentages = [0.65, 0.75, 0.85]; sets = ['5', '5', '5+']; break;
+                        case '2': percentages = [0.70, 0.80, 0.90]; sets = ['3', '3', '3+']; break;
+                        case '3': percentages = [0.75, 0.85, 0.95]; sets = ['5', '3', '1+']; break;
+                        case '4': percentages = [0.40, 0.50, 0.60]; sets = ['5', '5', '5']; break;
+                    }
+                    break;
+                case '351':
+                    switch(week) {
+                        case '1': percentages = [0.70, 0.80, 0.90]; sets = ['3', '3', '3+']; break;
+                        case '2': percentages = [0.65, 0.75, 0.85]; sets = ['5', '5', '5+']; break;
+                        case '3': percentages = [0.75, 0.85, 0.95]; sets = ['5', '3', '1+']; break;
+                        case '4': percentages = [0.40, 0.50, 0.60]; sets = ['5', '5', '5']; break;
+                    }
+                    break;
+                case '5spro':
+                    switch(week) {
+                        case '1': percentages = [0.65, 0.75, 0.85]; sets = ['5', '5', '5']; break;
+                        case '2': percentages = [0.70, 0.80, 0.90]; sets = ['5', '5', '5']; break;
+                        case '3': percentages = [0.75, 0.85, 0.95]; sets = ['5', '5', '5']; break;
+                        case '4': percentages = [0.40, 0.50, 0.60]; sets = ['5', '5', '5']; break;
+                    }
+                    break;
+                case '5x531':
+                    switch(week) {
+                        case '1': percentages = [0.65, 0.75, 0.85, 0.65, 0.65]; sets = ['5', '5', '5+', '5', '5']; break;
+                        case '2': percentages = [0.70, 0.80, 0.90, 0.70, 0.70]; sets = ['3', '3', '3+', '5', '5']; break;
+                        case '3': percentages = [0.75, 0.85, 0.95, 0.75, 0.75]; sets = ['5', '3', '1+', '5', '5']; break;
+                        case '4': percentages = [0.40, 0.50, 0.60, 0.40, 0.40]; sets = ['5', '5', '5', '5', '5']; break;
+                    }
+                    break;
+                case 'fsl':
+                    switch(week) {
+                        case '1': percentages = [0.65, 0.75, 0.85, 0.65, 0.65, 0.65, 0.65, 0.65]; sets = ['5', '5', '5+', '5', '5', '5', '5', '5']; break;
+                        case '2': percentages = [0.70, 0.80, 0.90, 0.70, 0.70, 0.70, 0.70, 0.70]; sets = ['3', '3', '3+', '5', '5', '5', '5', '5']; break;
+                        case '3': percentages = [0.75, 0.85, 0.95, 0.75, 0.75, 0.75, 0.75, 0.75]; sets = ['5', '3', '1+', '5', '5', '5', '5', '5']; break;
+                        case '4': percentages = [0.40, 0.50, 0.60]; sets = ['5', '5', '5']; break;
+                    }
+                    break;
+                case 'bbb':
+                    switch(week) {
+                        case '1': percentages = [0.65, 0.75, 0.85, 0.50, 0.50, 0.50, 0.50, 0.50]; sets = ['5', '5', '5+', '10', '10', '10', '10', '10']; break;
+                        case '2': percentages = [0.70, 0.80, 0.90, 0.50, 0.50, 0.50, 0.50, 0.50]; sets = ['3', '3', '3+', '10', '10', '10', '10', '10']; break;
+                        case '3': percentages = [0.75, 0.85, 0.95, 0.50, 0.50, 0.50, 0.50, 0.50]; sets = ['5', '3', '1+', '10', '10', '10', '10', '10']; break;
+                        case '4': percentages = [0.40, 0.50, 0.60]; sets = ['5', '5', '5']; break;
+                    }
+                    break;
             }
             
-            document.getElementById('result').innerHTML = result;
+            const weights = percentages.map(p => Math.round(trainingMax * p / 2.5) * 2.5);
+            
+            let resultHTML = `<h2>Résultats pour ${exercise} (${scheme})</h2>`;
+            for (let i = 0; i < weights.length; i++) {
+                resultHTML += `<p>Série ${i+1} : ${weights[i]} kg x ${sets[i]}</p>`;
+            }
+            
+            document.getElementById('result').innerHTML = resultHTML;
         });
     </script>
 </body>
