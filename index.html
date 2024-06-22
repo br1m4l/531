@@ -28,7 +28,7 @@
             display: block;
             margin-bottom: 5px;
         }
-        input[type="number"] {
+        input[type="number"], select {
             width: 100%;
             padding: 8px;
             margin-bottom: 10px;
@@ -72,6 +72,13 @@
             <label for="press">Développé militaire 1RM (kg):</label>
             <input type="number" id="press" required>
             
+            <label for="scheme">Schéma d'entraînement:</label>
+            <select id="scheme">
+                <option value="531">5/3/1 classique</option>
+                <option value="351">3/5/1</option>
+                <option value="5pro">5's PRO</option>
+            </select>
+            
             <button type="submit">Calculer</button>
         </form>
         
@@ -89,6 +96,8 @@
                 'Développé militaire': Number(document.getElementById('press').value)
             };
             
+            const scheme = document.getElementById('scheme').value;
+            
             let result = '<h2>Résultats</h2>';
             
             for (let [exercise, max] of Object.entries(exercises)) {
@@ -96,9 +105,21 @@
                 result += `<h3>${exercise}</h3>`;
                 result += `<p>Training max: ${trainingMax.toFixed(1)} kg</p>`;
                 result += '<ul>';
-                result += `<li>Semaine 1: ${(trainingMax * 0.65).toFixed(1)}kg x 5, ${(trainingMax * 0.75).toFixed(1)}kg x 5, ${(trainingMax * 0.85).toFixed(1)}kg x 5+</li>`;
-                result += `<li>Semaine 2: ${(trainingMax * 0.70).toFixed(1)}kg x 3, ${(trainingMax * 0.80).toFixed(1)}kg x 3, ${(trainingMax * 0.90).toFixed(1)}kg x 3+</li>`;
-                result += `<li>Semaine 3: ${(trainingMax * 0.75).toFixed(1)}kg x 5, ${(trainingMax * 0.85).toFixed(1)}kg x 3, ${(trainingMax * 0.95).toFixed(1)}kg x 1+</li>`;
+                
+                if (scheme === '531') {
+                    result += `<li>Semaine 1: ${(trainingMax * 0.65).toFixed(1)}kg x 5, ${(trainingMax * 0.75).toFixed(1)}kg x 5, ${(trainingMax * 0.85).toFixed(1)}kg x 5+</li>`;
+                    result += `<li>Semaine 2: ${(trainingMax * 0.70).toFixed(1)}kg x 3, ${(trainingMax * 0.80).toFixed(1)}kg x 3, ${(trainingMax * 0.90).toFixed(1)}kg x 3+</li>`;
+                    result += `<li>Semaine 3: ${(trainingMax * 0.75).toFixed(1)}kg x 5, ${(trainingMax * 0.85).toFixed(1)}kg x 3, ${(trainingMax * 0.95).toFixed(1)}kg x 1+</li>`;
+                } else if (scheme === '351') {
+                    result += `<li>Semaine 1: ${(trainingMax * 0.70).toFixed(1)}kg x 3, ${(trainingMax * 0.80).toFixed(1)}kg x 3, ${(trainingMax * 0.90).toFixed(1)}kg x 3+</li>`;
+                    result += `<li>Semaine 2: ${(trainingMax * 0.65).toFixed(1)}kg x 5, ${(trainingMax * 0.75).toFixed(1)}kg x 5, ${(trainingMax * 0.85).toFixed(1)}kg x 5+</li>`;
+                    result += `<li>Semaine 3: ${(trainingMax * 0.75).toFixed(1)}kg x 5, ${(trainingMax * 0.85).toFixed(1)}kg x 3, ${(trainingMax * 0.95).toFixed(1)}kg x 1+</li>`;
+                } else if (scheme === '5pro') {
+                    result += `<li>Semaine 1: ${(trainingMax * 0.65).toFixed(1)}kg x 5, ${(trainingMax * 0.75).toFixed(1)}kg x 5, ${(trainingMax * 0.85).toFixed(1)}kg x 5</li>`;
+                    result += `<li>Semaine 2: ${(trainingMax * 0.70).toFixed(1)}kg x 5, ${(trainingMax * 0.80).toFixed(1)}kg x 5, ${(trainingMax * 0.90).toFixed(1)}kg x 5</li>`;
+                    result += `<li>Semaine 3: ${(trainingMax * 0.75).toFixed(1)}kg x 5, ${(trainingMax * 0.85).toFixed(1)}kg x 5, ${(trainingMax * 0.95).toFixed(1)}kg x 5</li>`;
+                }
+                
                 result += `<li>Semaine 4 (deload): ${(trainingMax * 0.40).toFixed(1)}kg x 5, ${(trainingMax * 0.50).toFixed(1)}kg x 5, ${(trainingMax * 0.60).toFixed(1)}kg x 5</li>`;
                 result += '</ul>';
             }
